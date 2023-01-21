@@ -1,0 +1,23 @@
+int main:: test{
+
+int z;
+z++;
+int a;
+a=3;
+if (a >= 5  ) {
+a++;
+}else {
+a--;
+}
+int i ;
+while(i<0){
+i=i*2;
+}
+int n;
+n=4;
+for(i=0;i<10;i++){
+n = n+1;
+}
+
+return 1;
+}

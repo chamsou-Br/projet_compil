@@ -1,0 +1,2674 @@
+Nonterminals useless in grammar
+
+    Functions
+
+
+Terminals unused in grammar
+
+    key_simple
+    DOT
+    key_decaff
+    key_incaff
+    CHARAC
+    CHAINE
+    STRING
+    TYPESTRUCT
+
+
+Rules useless in grammar
+
+   94 Functions: Functions Function
+   95          | %empty
+
+
+Rules useless in parser due to conflicts
+
+   27 WHYNOT: WHYNOT Declaration_var
+
+
+State 78 conflicts: 27 shift/reduce
+State 114 conflicts: 27 reduce/reduce
+State 144 conflicts: 26 shift/reduce
+State 149 conflicts: 26 shift/reduce
+State 154 conflicts: 26 shift/reduce
+State 156 conflicts: 26 shift/reduce
+State 163 conflicts: 26 shift/reduce
+State 169 conflicts: 26 shift/reduce
+
+
+Grammar
+
+    0 $accept: MAIN_FUNCTION $end
+
+    1 MAIN_FUNCTION: type MAIN ID BLOC_MAIN
+
+    2 BLOC_MAIN: bloc
+
+    3 Declaration: Declaration_var
+
+    4 Declaration_var: type Declaration_mul SEMI
+
+    5 Declaration_mul: Declaration_mul COMMA var_decl_id
+    6                | var_decl_id
+
+    7 var_decl_id: ID
+    8            | ID LBRACK ENTIER RBRACK
+
+    9 Function: type ID LPAREN ENTRES RPAREN bloc
+
+   10 ENTRES: ENTRES COMMA ENTRE
+   11       | ENTRE
+
+   12 ENTRE: type ID
+   13      | %empty
+
+   14 type: INT
+   15     | VOID
+   16     | CHAR
+   17     | LONG
+   18     | FLOAT
+   19     | LIST INFERIEUR Type_list SUPERIEUR
+
+   20 Type_list: INT
+   21          | VOID
+   22          | CHAR
+   23          | LONG
+   24          | FLOAT
+
+   25 instructions: LBRACE WHYNOT RBRACE
+
+   26 WHYNOT: WHYNOT bloc Adress1
+   27       | WHYNOT Declaration_var
+   28       | %empty
+
+   29 bloc: instruction
+   30     | instructions
+
+   31 instruction: expression_decl
+   32            | if_instruction
+   33            | while_instruction
+   34            | Return_statment
+   35            | COMMENTAIRE
+   36            | Appel_function
+   37            | Declaration
+   38            | Function
+   39            | READ LPAREN ID RPAREN SEMI
+   40            | WRITE LPAREN ID RPAREN SEMI
+   41            | %empty
+
+   42 Appel_function: ID LPAREN ENTRES RPAREN
+
+   43 bloc: var AFFECTATION ID LPAREN ENTRES RPAREN bloc
+
+   44 expression_decl: expression SEMI
+   45                | SEMI
+
+   46 if_instruction: IF LPAREN expression RPAREN Adress1 bloc
+   47               | IF LPAREN expression RPAREN Adress1 bloc ELSE Adress1 Adress2 bloc
+
+   48 while_instruction: WHILE LPAREN Adress1 expression RPAREN Adress1 bloc
+   49                  | FOR LPAREN ID AFFECTATION constant SEMI Adress1 Expr_log SEMI Adress1 expression RPAREN Adress1 bloc
+
+   50 Return_statment: RETURN SEMI
+   51                | RETURN expression SEMI
+
+   52 expression: var AFFECTATION expression
+   53           | var DEC
+   54           | var INC
+   55           | Expr_log
+
+   56 var: ID
+
+   57 Expr_log: Expr_log OR Adress1 Expr_log_or
+   58         | Expr_log_or
+
+   59 Expr_log_or: Expr_log_or AND Adress1 Expr_log_not
+   60            | Expr_log_not
+
+   61 Expr_log_not: NOT Expr_log_not
+   62             | Expression_comp
+
+   63 Expression_comp: expression_add SUP_INF_EGALE_DIFF expression_add
+   64                | expression_add
+
+   65 SUP_INF_EGALE_DIFF: SUPERIEROREQUALS
+   66                   | INFERIEUR
+   67                   | SUPERIEUR
+   68                   | INFERIEROREQUALS
+   69                   | EGALE
+   70                   | DIFF
+
+   71 expression_add: expression_add PLUS_MOINS Expression_fois_divise
+   72               | Expression_fois_divise
+
+   73 PLUS_MOINS: PLUS
+   74           | MOINS
+
+   75 Expression_fois_divise: Expression_fois_divise FOIS_DIVISE_MODE Expression_Neg
+   76                       | Expression_Neg
+
+   77 FOIS_DIVISE_MODE: FOIS
+   78                 | DIVISE
+   79                 | MODE
+
+   80 Expression_Neg: MOINS Expression_Neg
+   81               | Expression_par
+
+   82 Expression_par: LPAREN expression RPAREN
+   83               | var
+   84               | constant
+
+   85 constant: ENTIER
+   86         | TRUE
+   87         | FALSE
+   88         | NFLOAT
+   89         | NLONG
+   90         | key_chaindc
+   91         | CHIFFRE
+
+   92 Adress1: %empty
+
+   93 Adress2: %empty
+
+
+Terminals, with rules where they appear
+
+    $end (0) 0
+    error (256)
+    ID <pos> (258) 1 7 8 9 12 39 40 42 43 49 56
+    ENTIER <mot> (259) 8 85
+    RETURN (260) 50 51
+    INT <mot> (261) 14 20
+    LONG <mot> (262) 17 23
+    FLOAT <mot> (263) 18 24
+    key_simple (264)
+    CHAR <mot> (265) 16 22
+    IF (266) 46 47
+    ELSE (267) 47
+    FOR (268) 49
+    WHILE (269) 48
+    READ (270) 39
+    WRITE (271) 40
+    VOID <mot> (272) 15 21
+    FALSE <mot> (273) 87
+    TRUE <mot> (274) 86
+    SUPERIEUR <mot> (275) 19 67
+    INFERIEUR <mot> (276) 19 66
+    INFERIEROREQUALS <mot> (277) 68
+    SUPERIEROREQUALS <mot> (278) 65
+    EGALE <mot> (279) 69
+    DIFF <mot> (280) 70
+    NOT <mot> (281) 61
+    INC (282) 54
+    DEC (283) 53
+    AND <mot> (284) 59
+    OR <mot> (285) 57
+    PLUS <mot> (286) 73
+    MOINS <mot> (287) 74 80
+    AFFECTATION <mot> (288) 43 49 52
+    MODE <mot> (289) 79
+    FOIS <mot> (290) 77
+    DIVISE <mot> (291) 78
+    COMMA (292) 5 10
+    SEMI (293) 4 39 40 44 45 49 50 51
+    DOT (294)
+    LPAREN (295) 9 39 40 42 43 46 47 48 49 82
+    RPAREN (296) 9 39 40 42 43 46 47 48 49 82
+    LBRACK (297) 8
+    RBRACK (298) 8
+    LBRACE (299) 25
+    RBRACE (300) 25
+    COMMENTAIRE (301) 35
+    key_decaff (302)
+    key_incaff (303)
+    NFLOAT <mot> (304) 88
+    NLONG <mot> (305) 89
+    key_chaindc <mot> (306) 90
+    CHIFFRE <mot> (307) 91
+    LIST <mot> (308) 19
+    MAIN <mot> (309) 1
+    CHARAC (310)
+    CHAINE (311)
+    STRING <mot> (312)
+    TYPESTRUCT (313)
+    IFX (314)
+
+
+Nonterminals, with rules where they appear
+
+    $accept (60)
+        on left: 0
+    MAIN_FUNCTION (61)
+        on left: 1
+        on right: 0
+    BLOC_MAIN <next> (62)
+        on left: 2
+        on right: 1
+    Declaration <def> (63)
+        on left: 3
+        on right: 37
+    Declaration_var <def> (64)
+        on left: 4
+        on right: 3 27
+    Declaration_mul <def> (65)
+        on left: 5 6
+        on right: 4 5
+    var_decl_id <pos> (66)
+        on left: 7 8
+        on right: 5 6
+    Function (67)
+        on left: 9
+        on right: 38
+    ENTRES (68)
+        on left: 10 11
+        on right: 9 10 42 43
+    ENTRE (69)
+        on left: 12 13
+        on right: 10 11
+    type <mot> (70)
+        on left: 14 15 16 17 18 19
+        on right: 1 4 9 12
+    Type_list <mot> (71)
+        on left: 20 21 22 23 24
+        on right: 19
+    instructions <next> (72)
+        on left: 25
+        on right: 30
+    WHYNOT <next> (73)
+        on left: 26 27 28
+        on right: 25 26 27
+    bloc <next> (74)
+        on left: 29 30 43
+        on right: 2 9 26 43 46 47 48 49
+    instruction <next> (75)
+        on left: 31 32 33 34 35 36 37 38 39 40 41
+        on right: 29
+    Appel_function (76)
+        on left: 42
+        on right: 36
+    expression_decl <next> (77)
+        on left: 44 45
+        on right: 31
+    if_instruction <next> (78)
+        on left: 46 47
+        on right: 32
+    while_instruction <next> (79)
+        on left: 48 49
+        on right: 33
+    Return_statment (80)
+        on left: 50 51
+        on right: 34
+    expression <Exp_Type> (81)
+        on left: 52 53 54 55
+        on right: 44 46 47 48 49 51 52 82
+    var <mot> (82)
+        on left: 56
+        on right: 43 52 53 54 83
+    Expr_log <Exp_Type> (83)
+        on left: 57 58
+        on right: 49 55 57
+    Expr_log_or <Exp_Type> (84)
+        on left: 59 60
+        on right: 57 58 59
+    Expr_log_not <Exp_Type> (85)
+        on left: 61 62
+        on right: 59 60 61
+    Expression_comp <Exp_Type> (86)
+        on left: 63 64
+        on right: 62
+    SUP_INF_EGALE_DIFF <mot> (87)
+        on left: 65 66 67 68 69 70
+        on right: 63
+    expression_add <Exp_Type> (88)
+        on left: 71 72
+        on right: 63 64 71
+    PLUS_MOINS <mot> (89)
+        on left: 73 74
+        on right: 71
+    Expression_fois_divise <Exp_Type> (90)
+        on left: 75 76
+        on right: 71 72 75
+    FOIS_DIVISE_MODE <mot> (91)
+        on left: 77 78 79
+        on right: 75
+    Expression_Neg <Exp_Type> (92)
+        on left: 80 81
+        on right: 75 76 80
+    Expression_par <Exp_Type> (93)
+        on left: 82 83 84
+        on right: 81
+    constant <Exp_Type> (94)
+        on left: 85 86 87 88 89 90 91
+        on right: 49 84
+    Adress1 <adress> (95)
+        on left: 92
+        on right: 26 46 47 48 49 57 59
+    Adress2 <Exp_Type> (96)
+        on left: 93
+        on right: 47
+
+
+State 0
+
+    0 $accept: . MAIN_FUNCTION $end
+
+    INT    shift, and go to state 1
+    LONG   shift, and go to state 2
+    FLOAT  shift, and go to state 3
+    CHAR   shift, and go to state 4
+    VOID   shift, and go to state 5
+    LIST   shift, and go to state 6
+
+    MAIN_FUNCTION  go to state 7
+    type           go to state 8
+
+
+State 1
+
+   14 type: INT .
+
+    $default  reduce using rule 14 (type)
+
+
+State 2
+
+   17 type: LONG .
+
+    $default  reduce using rule 17 (type)
+
+
+State 3
+
+   18 type: FLOAT .
+
+    $default  reduce using rule 18 (type)
+
+
+State 4
+
+   16 type: CHAR .
+
+    $default  reduce using rule 16 (type)
+
+
+State 5
+
+   15 type: VOID .
+
+    $default  reduce using rule 15 (type)
+
+
+State 6
+
+   19 type: LIST . INFERIEUR Type_list SUPERIEUR
+
+    INFERIEUR  shift, and go to state 9
+
+
+State 7
+
+    0 $accept: MAIN_FUNCTION . $end
+
+    $end  shift, and go to state 10
+
+
+State 8
+
+    1 MAIN_FUNCTION: type . MAIN ID BLOC_MAIN
+
+    MAIN  shift, and go to state 11
+
+
+State 9
+
+   19 type: LIST INFERIEUR . Type_list SUPERIEUR
+
+    INT    shift, and go to state 12
+    LONG   shift, and go to state 13
+    FLOAT  shift, and go to state 14
+    CHAR   shift, and go to state 15
+    VOID   shift, and go to state 16
+
+    Type_list  go to state 17
+
+
+State 10
+
+    0 $accept: MAIN_FUNCTION $end .
+
+    $default  accept
+
+
+State 11
+
+    1 MAIN_FUNCTION: type MAIN . ID BLOC_MAIN
+
+    ID  shift, and go to state 18
+
+
+State 12
+
+   20 Type_list: INT .
+
+    $default  reduce using rule 20 (Type_list)
+
+
+State 13
+
+   23 Type_list: LONG .
+
+    $default  reduce using rule 23 (Type_list)
+
+
+State 14
+
+   24 Type_list: FLOAT .
+
+    $default  reduce using rule 24 (Type_list)
+
+
+State 15
+
+   22 Type_list: CHAR .
+
+    $default  reduce using rule 22 (Type_list)
+
+
+State 16
+
+   21 Type_list: VOID .
+
+    $default  reduce using rule 21 (Type_list)
+
+
+State 17
+
+   19 type: LIST INFERIEUR Type_list . SUPERIEUR
+
+    SUPERIEUR  shift, and go to state 19
+
+
+State 18
+
+    1 MAIN_FUNCTION: type MAIN ID . BLOC_MAIN
+
+    ID           shift, and go to state 20
+    ENTIER       shift, and go to state 21
+    RETURN       shift, and go to state 22
+    INT          shift, and go to state 1
+    LONG         shift, and go to state 2
+    FLOAT        shift, and go to state 3
+    CHAR         shift, and go to state 4
+    IF           shift, and go to state 23
+    FOR          shift, and go to state 24
+    WHILE        shift, and go to state 25
+    READ         shift, and go to state 26
+    WRITE        shift, and go to state 27
+    VOID         shift, and go to state 5
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    SEMI         shift, and go to state 32
+    LPAREN       shift, and go to state 33
+    LBRACE       shift, and go to state 34
+    COMMENTAIRE  shift, and go to state 35
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+    LIST         shift, and go to state 6
+
+    $default  reduce using rule 41 (instruction)
+
+    BLOC_MAIN               go to state 40
+    Declaration             go to state 41
+    Declaration_var         go to state 42
+    Function                go to state 43
+    type                    go to state 44
+    instructions            go to state 45
+    bloc                    go to state 46
+    instruction             go to state 47
+    Appel_function          go to state 48
+    expression_decl         go to state 49
+    if_instruction          go to state 50
+    while_instruction       go to state 51
+    Return_statment         go to state 52
+    expression              go to state 53
+    var                     go to state 54
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 19
+
+   19 type: LIST INFERIEUR Type_list SUPERIEUR .
+
+    $default  reduce using rule 19 (type)
+
+
+State 20
+
+   42 Appel_function: ID . LPAREN ENTRES RPAREN
+   56 var: ID .
+
+    LPAREN  shift, and go to state 64
+
+    $default  reduce using rule 56 (var)
+
+
+State 21
+
+   85 constant: ENTIER .
+
+    $default  reduce using rule 85 (constant)
+
+
+State 22
+
+   50 Return_statment: RETURN . SEMI
+   51                | RETURN . expression SEMI
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    SEMI         shift, and go to state 66
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    expression              go to state 67
+    var                     go to state 68
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 23
+
+   46 if_instruction: IF . LPAREN expression RPAREN Adress1 bloc
+   47               | IF . LPAREN expression RPAREN Adress1 bloc ELSE Adress1 Adress2 bloc
+
+    LPAREN  shift, and go to state 69
+
+
+State 24
+
+   49 while_instruction: FOR . LPAREN ID AFFECTATION constant SEMI Adress1 Expr_log SEMI Adress1 expression RPAREN Adress1 bloc
+
+    LPAREN  shift, and go to state 70
+
+
+State 25
+
+   48 while_instruction: WHILE . LPAREN Adress1 expression RPAREN Adress1 bloc
+
+    LPAREN  shift, and go to state 71
+
+
+State 26
+
+   39 instruction: READ . LPAREN ID RPAREN SEMI
+
+    LPAREN  shift, and go to state 72
+
+
+State 27
+
+   40 instruction: WRITE . LPAREN ID RPAREN SEMI
+
+    LPAREN  shift, and go to state 73
+
+
+State 28
+
+   87 constant: FALSE .
+
+    $default  reduce using rule 87 (constant)
+
+
+State 29
+
+   86 constant: TRUE .
+
+    $default  reduce using rule 86 (constant)
+
+
+State 30
+
+   61 Expr_log_not: NOT . Expr_log_not
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    var                     go to state 74
+    Expr_log_not            go to state 75
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 31
+
+   80 Expression_Neg: MOINS . Expression_Neg
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    var             go to state 74
+    Expression_Neg  go to state 76
+    Expression_par  go to state 62
+    constant        go to state 63
+
+
+State 32
+
+   45 expression_decl: SEMI .
+
+    $default  reduce using rule 45 (expression_decl)
+
+
+State 33
+
+   82 Expression_par: LPAREN . expression RPAREN
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    expression              go to state 77
+    var                     go to state 68
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 34
+
+   25 instructions: LBRACE . WHYNOT RBRACE
+
+    $default  reduce using rule 28 (WHYNOT)
+
+    WHYNOT  go to state 78
+
+
+State 35
+
+   35 instruction: COMMENTAIRE .
+
+    $default  reduce using rule 35 (instruction)
+
+
+State 36
+
+   88 constant: NFLOAT .
+
+    $default  reduce using rule 88 (constant)
+
+
+State 37
+
+   89 constant: NLONG .
+
+    $default  reduce using rule 89 (constant)
+
+
+State 38
+
+   90 constant: key_chaindc .
+
+    $default  reduce using rule 90 (constant)
+
+
+State 39
+
+   91 constant: CHIFFRE .
+
+    $default  reduce using rule 91 (constant)
+
+
+State 40
+
+    1 MAIN_FUNCTION: type MAIN ID BLOC_MAIN .
+
+    $default  reduce using rule 1 (MAIN_FUNCTION)
+
+
+State 41
+
+   37 instruction: Declaration .
+
+    $default  reduce using rule 37 (instruction)
+
+
+State 42
+
+    3 Declaration: Declaration_var .
+
+    $default  reduce using rule 3 (Declaration)
+
+
+State 43
+
+   38 instruction: Function .
+
+    $default  reduce using rule 38 (instruction)
+
+
+State 44
+
+    4 Declaration_var: type . Declaration_mul SEMI
+    9 Function: type . ID LPAREN ENTRES RPAREN bloc
+
+    ID  shift, and go to state 79
+
+    Declaration_mul  go to state 80
+    var_decl_id      go to state 81
+
+
+State 45
+
+   30 bloc: instructions .
+
+    $default  reduce using rule 30 (bloc)
+
+
+State 46
+
+    2 BLOC_MAIN: bloc .
+
+    $default  reduce using rule 2 (BLOC_MAIN)
+
+
+State 47
+
+   29 bloc: instruction .
+
+    $default  reduce using rule 29 (bloc)
+
+
+State 48
+
+   36 instruction: Appel_function .
+
+    $default  reduce using rule 36 (instruction)
+
+
+State 49
+
+   31 instruction: expression_decl .
+
+    $default  reduce using rule 31 (instruction)
+
+
+State 50
+
+   32 instruction: if_instruction .
+
+    $default  reduce using rule 32 (instruction)
+
+
+State 51
+
+   33 instruction: while_instruction .
+
+    $default  reduce using rule 33 (instruction)
+
+
+State 52
+
+   34 instruction: Return_statment .
+
+    $default  reduce using rule 34 (instruction)
+
+
+State 53
+
+   44 expression_decl: expression . SEMI
+
+    SEMI  shift, and go to state 82
+
+
+State 54
+
+   43 bloc: var . AFFECTATION ID LPAREN ENTRES RPAREN bloc
+   52 expression: var . AFFECTATION expression
+   53           | var . DEC
+   54           | var . INC
+   83 Expression_par: var .
+
+    INC          shift, and go to state 83
+    DEC          shift, and go to state 84
+    AFFECTATION  shift, and go to state 85
+
+    $default  reduce using rule 83 (Expression_par)
+
+
+State 55
+
+   55 expression: Expr_log .
+   57 Expr_log: Expr_log . OR Adress1 Expr_log_or
+
+    OR  shift, and go to state 86
+
+    $default  reduce using rule 55 (expression)
+
+
+State 56
+
+   58 Expr_log: Expr_log_or .
+   59 Expr_log_or: Expr_log_or . AND Adress1 Expr_log_not
+
+    AND  shift, and go to state 87
+
+    $default  reduce using rule 58 (Expr_log)
+
+
+State 57
+
+   60 Expr_log_or: Expr_log_not .
+
+    $default  reduce using rule 60 (Expr_log_or)
+
+
+State 58
+
+   62 Expr_log_not: Expression_comp .
+
+    $default  reduce using rule 62 (Expr_log_not)
+
+
+State 59
+
+   63 Expression_comp: expression_add . SUP_INF_EGALE_DIFF expression_add
+   64                | expression_add .
+   71 expression_add: expression_add . PLUS_MOINS Expression_fois_divise
+
+    SUPERIEUR         shift, and go to state 88
+    INFERIEUR         shift, and go to state 89
+    INFERIEROREQUALS  shift, and go to state 90
+    SUPERIEROREQUALS  shift, and go to state 91
+    EGALE             shift, and go to state 92
+    DIFF              shift, and go to state 93
+    PLUS              shift, and go to state 94
+    MOINS             shift, and go to state 95
+
+    $default  reduce using rule 64 (Expression_comp)
+
+    SUP_INF_EGALE_DIFF  go to state 96
+    PLUS_MOINS          go to state 97
+
+
+State 60
+
+   72 expression_add: Expression_fois_divise .
+   75 Expression_fois_divise: Expression_fois_divise . FOIS_DIVISE_MODE Expression_Neg
+
+    MODE    shift, and go to state 98
+    FOIS    shift, and go to state 99
+    DIVISE  shift, and go to state 100
+
+    $default  reduce using rule 72 (expression_add)
+
+    FOIS_DIVISE_MODE  go to state 101
+
+
+State 61
+
+   76 Expression_fois_divise: Expression_Neg .
+
+    $default  reduce using rule 76 (Expression_fois_divise)
+
+
+State 62
+
+   81 Expression_Neg: Expression_par .
+
+    $default  reduce using rule 81 (Expression_Neg)
+
+
+State 63
+
+   84 Expression_par: constant .
+
+    $default  reduce using rule 84 (Expression_par)
+
+
+State 64
+
+   42 Appel_function: ID LPAREN . ENTRES RPAREN
+
+    INT    shift, and go to state 1
+    LONG   shift, and go to state 2
+    FLOAT  shift, and go to state 3
+    CHAR   shift, and go to state 4
+    VOID   shift, and go to state 5
+    LIST   shift, and go to state 6
+
+    $default  reduce using rule 13 (ENTRE)
+
+    ENTRES  go to state 102
+    ENTRE   go to state 103
+    type    go to state 104
+
+
+State 65
+
+   56 var: ID .
+
+    $default  reduce using rule 56 (var)
+
+
+State 66
+
+   50 Return_statment: RETURN SEMI .
+
+    $default  reduce using rule 50 (Return_statment)
+
+
+State 67
+
+   51 Return_statment: RETURN expression . SEMI
+
+    SEMI  shift, and go to state 105
+
+
+State 68
+
+   52 expression: var . AFFECTATION expression
+   53           | var . DEC
+   54           | var . INC
+   83 Expression_par: var .
+
+    INC          shift, and go to state 83
+    DEC          shift, and go to state 84
+    AFFECTATION  shift, and go to state 106
+
+    $default  reduce using rule 83 (Expression_par)
+
+
+State 69
+
+   46 if_instruction: IF LPAREN . expression RPAREN Adress1 bloc
+   47               | IF LPAREN . expression RPAREN Adress1 bloc ELSE Adress1 Adress2 bloc
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    expression              go to state 107
+    var                     go to state 68
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 70
+
+   49 while_instruction: FOR LPAREN . ID AFFECTATION constant SEMI Adress1 Expr_log SEMI Adress1 expression RPAREN Adress1 bloc
+
+    ID  shift, and go to state 108
+
+
+State 71
+
+   48 while_instruction: WHILE LPAREN . Adress1 expression RPAREN Adress1 bloc
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 109
+
+
+State 72
+
+   39 instruction: READ LPAREN . ID RPAREN SEMI
+
+    ID  shift, and go to state 110
+
+
+State 73
+
+   40 instruction: WRITE LPAREN . ID RPAREN SEMI
+
+    ID  shift, and go to state 111
+
+
+State 74
+
+   83 Expression_par: var .
+
+    $default  reduce using rule 83 (Expression_par)
+
+
+State 75
+
+   61 Expr_log_not: NOT Expr_log_not .
+
+    $default  reduce using rule 61 (Expr_log_not)
+
+
+State 76
+
+   80 Expression_Neg: MOINS Expression_Neg .
+
+    $default  reduce using rule 80 (Expression_Neg)
+
+
+State 77
+
+   82 Expression_par: LPAREN expression . RPAREN
+
+    RPAREN  shift, and go to state 112
+
+
+State 78
+
+   25 instructions: LBRACE WHYNOT . RBRACE
+   26 WHYNOT: WHYNOT . bloc Adress1
+   27       | WHYNOT . Declaration_var
+
+    ID           shift, and go to state 20
+    ENTIER       shift, and go to state 21
+    RETURN       shift, and go to state 22
+    INT          shift, and go to state 1
+    LONG         shift, and go to state 2
+    FLOAT        shift, and go to state 3
+    CHAR         shift, and go to state 4
+    IF           shift, and go to state 23
+    FOR          shift, and go to state 24
+    WHILE        shift, and go to state 25
+    READ         shift, and go to state 26
+    WRITE        shift, and go to state 27
+    VOID         shift, and go to state 5
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    SEMI         shift, and go to state 32
+    LPAREN       shift, and go to state 33
+    LBRACE       shift, and go to state 34
+    RBRACE       shift, and go to state 113
+    COMMENTAIRE  shift, and go to state 35
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+    LIST         shift, and go to state 6
+
+    ID           [reduce using rule 41 (instruction)]
+    ENTIER       [reduce using rule 41 (instruction)]
+    RETURN       [reduce using rule 41 (instruction)]
+    INT          [reduce using rule 41 (instruction)]
+    LONG         [reduce using rule 41 (instruction)]
+    FLOAT        [reduce using rule 41 (instruction)]
+    CHAR         [reduce using rule 41 (instruction)]
+    IF           [reduce using rule 41 (instruction)]
+    FOR          [reduce using rule 41 (instruction)]
+    WHILE        [reduce using rule 41 (instruction)]
+    READ         [reduce using rule 41 (instruction)]
+    WRITE        [reduce using rule 41 (instruction)]
+    VOID         [reduce using rule 41 (instruction)]
+    FALSE        [reduce using rule 41 (instruction)]
+    TRUE         [reduce using rule 41 (instruction)]
+    NOT          [reduce using rule 41 (instruction)]
+    MOINS        [reduce using rule 41 (instruction)]
+    SEMI         [reduce using rule 41 (instruction)]
+    LPAREN       [reduce using rule 41 (instruction)]
+    LBRACE       [reduce using rule 41 (instruction)]
+    RBRACE       [reduce using rule 41 (instruction)]
+    COMMENTAIRE  [reduce using rule 41 (instruction)]
+    NFLOAT       [reduce using rule 41 (instruction)]
+    NLONG        [reduce using rule 41 (instruction)]
+    key_chaindc  [reduce using rule 41 (instruction)]
+    CHIFFRE      [reduce using rule 41 (instruction)]
+    LIST         [reduce using rule 41 (instruction)]
+
+    Declaration             go to state 41
+    Declaration_var         go to state 114
+    Function                go to state 43
+    type                    go to state 44
+    instructions            go to state 45
+    bloc                    go to state 115
+    instruction             go to state 47
+    Appel_function          go to state 48
+    expression_decl         go to state 49
+    if_instruction          go to state 50
+    while_instruction       go to state 51
+    Return_statment         go to state 52
+    expression              go to state 53
+    var                     go to state 54
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 79
+
+    7 var_decl_id: ID .
+    8            | ID . LBRACK ENTIER RBRACK
+    9 Function: type ID . LPAREN ENTRES RPAREN bloc
+
+    LPAREN  shift, and go to state 116
+    LBRACK  shift, and go to state 117
+
+    $default  reduce using rule 7 (var_decl_id)
+
+
+State 80
+
+    4 Declaration_var: type Declaration_mul . SEMI
+    5 Declaration_mul: Declaration_mul . COMMA var_decl_id
+
+    COMMA  shift, and go to state 118
+    SEMI   shift, and go to state 119
+
+
+State 81
+
+    6 Declaration_mul: var_decl_id .
+
+    $default  reduce using rule 6 (Declaration_mul)
+
+
+State 82
+
+   44 expression_decl: expression SEMI .
+
+    $default  reduce using rule 44 (expression_decl)
+
+
+State 83
+
+   54 expression: var INC .
+
+    $default  reduce using rule 54 (expression)
+
+
+State 84
+
+   53 expression: var DEC .
+
+    $default  reduce using rule 53 (expression)
+
+
+State 85
+
+   43 bloc: var AFFECTATION . ID LPAREN ENTRES RPAREN bloc
+   52 expression: var AFFECTATION . expression
+
+    ID           shift, and go to state 120
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    expression              go to state 121
+    var                     go to state 68
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 86
+
+   57 Expr_log: Expr_log OR . Adress1 Expr_log_or
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 122
+
+
+State 87
+
+   59 Expr_log_or: Expr_log_or AND . Adress1 Expr_log_not
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 123
+
+
+State 88
+
+   67 SUP_INF_EGALE_DIFF: SUPERIEUR .
+
+    $default  reduce using rule 67 (SUP_INF_EGALE_DIFF)
+
+
+State 89
+
+   66 SUP_INF_EGALE_DIFF: INFERIEUR .
+
+    $default  reduce using rule 66 (SUP_INF_EGALE_DIFF)
+
+
+State 90
+
+   68 SUP_INF_EGALE_DIFF: INFERIEROREQUALS .
+
+    $default  reduce using rule 68 (SUP_INF_EGALE_DIFF)
+
+
+State 91
+
+   65 SUP_INF_EGALE_DIFF: SUPERIEROREQUALS .
+
+    $default  reduce using rule 65 (SUP_INF_EGALE_DIFF)
+
+
+State 92
+
+   69 SUP_INF_EGALE_DIFF: EGALE .
+
+    $default  reduce using rule 69 (SUP_INF_EGALE_DIFF)
+
+
+State 93
+
+   70 SUP_INF_EGALE_DIFF: DIFF .
+
+    $default  reduce using rule 70 (SUP_INF_EGALE_DIFF)
+
+
+State 94
+
+   73 PLUS_MOINS: PLUS .
+
+    $default  reduce using rule 73 (PLUS_MOINS)
+
+
+State 95
+
+   74 PLUS_MOINS: MOINS .
+
+    $default  reduce using rule 74 (PLUS_MOINS)
+
+
+State 96
+
+   63 Expression_comp: expression_add SUP_INF_EGALE_DIFF . expression_add
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    var                     go to state 74
+    expression_add          go to state 124
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 97
+
+   71 expression_add: expression_add PLUS_MOINS . Expression_fois_divise
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    var                     go to state 74
+    Expression_fois_divise  go to state 125
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 98
+
+   79 FOIS_DIVISE_MODE: MODE .
+
+    $default  reduce using rule 79 (FOIS_DIVISE_MODE)
+
+
+State 99
+
+   77 FOIS_DIVISE_MODE: FOIS .
+
+    $default  reduce using rule 77 (FOIS_DIVISE_MODE)
+
+
+State 100
+
+   78 FOIS_DIVISE_MODE: DIVISE .
+
+    $default  reduce using rule 78 (FOIS_DIVISE_MODE)
+
+
+State 101
+
+   75 Expression_fois_divise: Expression_fois_divise FOIS_DIVISE_MODE . Expression_Neg
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    var             go to state 74
+    Expression_Neg  go to state 126
+    Expression_par  go to state 62
+    constant        go to state 63
+
+
+State 102
+
+   10 ENTRES: ENTRES . COMMA ENTRE
+   42 Appel_function: ID LPAREN ENTRES . RPAREN
+
+    COMMA   shift, and go to state 127
+    RPAREN  shift, and go to state 128
+
+
+State 103
+
+   11 ENTRES: ENTRE .
+
+    $default  reduce using rule 11 (ENTRES)
+
+
+State 104
+
+   12 ENTRE: type . ID
+
+    ID  shift, and go to state 129
+
+
+State 105
+
+   51 Return_statment: RETURN expression SEMI .
+
+    $default  reduce using rule 51 (Return_statment)
+
+
+State 106
+
+   52 expression: var AFFECTATION . expression
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    expression              go to state 121
+    var                     go to state 68
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 107
+
+   46 if_instruction: IF LPAREN expression . RPAREN Adress1 bloc
+   47               | IF LPAREN expression . RPAREN Adress1 bloc ELSE Adress1 Adress2 bloc
+
+    RPAREN  shift, and go to state 130
+
+
+State 108
+
+   49 while_instruction: FOR LPAREN ID . AFFECTATION constant SEMI Adress1 Expr_log SEMI Adress1 expression RPAREN Adress1 bloc
+
+    AFFECTATION  shift, and go to state 131
+
+
+State 109
+
+   48 while_instruction: WHILE LPAREN Adress1 . expression RPAREN Adress1 bloc
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    expression              go to state 132
+    var                     go to state 68
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 110
+
+   39 instruction: READ LPAREN ID . RPAREN SEMI
+
+    RPAREN  shift, and go to state 133
+
+
+State 111
+
+   40 instruction: WRITE LPAREN ID . RPAREN SEMI
+
+    RPAREN  shift, and go to state 134
+
+
+State 112
+
+   82 Expression_par: LPAREN expression RPAREN .
+
+    $default  reduce using rule 82 (Expression_par)
+
+
+State 113
+
+   25 instructions: LBRACE WHYNOT RBRACE .
+
+    $default  reduce using rule 25 (instructions)
+
+
+State 114
+
+    3 Declaration: Declaration_var .
+   27 WHYNOT: WHYNOT Declaration_var .
+
+    ID           reduce using rule 3 (Declaration)
+    ID           [reduce using rule 27 (WHYNOT)]
+    ENTIER       reduce using rule 3 (Declaration)
+    ENTIER       [reduce using rule 27 (WHYNOT)]
+    RETURN       reduce using rule 3 (Declaration)
+    RETURN       [reduce using rule 27 (WHYNOT)]
+    INT          reduce using rule 3 (Declaration)
+    INT          [reduce using rule 27 (WHYNOT)]
+    LONG         reduce using rule 3 (Declaration)
+    LONG         [reduce using rule 27 (WHYNOT)]
+    FLOAT        reduce using rule 3 (Declaration)
+    FLOAT        [reduce using rule 27 (WHYNOT)]
+    CHAR         reduce using rule 3 (Declaration)
+    CHAR         [reduce using rule 27 (WHYNOT)]
+    IF           reduce using rule 3 (Declaration)
+    IF           [reduce using rule 27 (WHYNOT)]
+    FOR          reduce using rule 3 (Declaration)
+    FOR          [reduce using rule 27 (WHYNOT)]
+    WHILE        reduce using rule 3 (Declaration)
+    WHILE        [reduce using rule 27 (WHYNOT)]
+    READ         reduce using rule 3 (Declaration)
+    READ         [reduce using rule 27 (WHYNOT)]
+    WRITE        reduce using rule 3 (Declaration)
+    WRITE        [reduce using rule 27 (WHYNOT)]
+    VOID         reduce using rule 3 (Declaration)
+    VOID         [reduce using rule 27 (WHYNOT)]
+    FALSE        reduce using rule 3 (Declaration)
+    FALSE        [reduce using rule 27 (WHYNOT)]
+    TRUE         reduce using rule 3 (Declaration)
+    TRUE         [reduce using rule 27 (WHYNOT)]
+    NOT          reduce using rule 3 (Declaration)
+    NOT          [reduce using rule 27 (WHYNOT)]
+    MOINS        reduce using rule 3 (Declaration)
+    MOINS        [reduce using rule 27 (WHYNOT)]
+    SEMI         reduce using rule 3 (Declaration)
+    SEMI         [reduce using rule 27 (WHYNOT)]
+    LPAREN       reduce using rule 3 (Declaration)
+    LPAREN       [reduce using rule 27 (WHYNOT)]
+    LBRACE       reduce using rule 3 (Declaration)
+    LBRACE       [reduce using rule 27 (WHYNOT)]
+    RBRACE       reduce using rule 3 (Declaration)
+    RBRACE       [reduce using rule 27 (WHYNOT)]
+    COMMENTAIRE  reduce using rule 3 (Declaration)
+    COMMENTAIRE  [reduce using rule 27 (WHYNOT)]
+    NFLOAT       reduce using rule 3 (Declaration)
+    NFLOAT       [reduce using rule 27 (WHYNOT)]
+    NLONG        reduce using rule 3 (Declaration)
+    NLONG        [reduce using rule 27 (WHYNOT)]
+    key_chaindc  reduce using rule 3 (Declaration)
+    key_chaindc  [reduce using rule 27 (WHYNOT)]
+    CHIFFRE      reduce using rule 3 (Declaration)
+    CHIFFRE      [reduce using rule 27 (WHYNOT)]
+    LIST         reduce using rule 3 (Declaration)
+    LIST         [reduce using rule 27 (WHYNOT)]
+    $default     reduce using rule 3 (Declaration)
+
+
+State 115
+
+   26 WHYNOT: WHYNOT bloc . Adress1
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 135
+
+
+State 116
+
+    9 Function: type ID LPAREN . ENTRES RPAREN bloc
+
+    INT    shift, and go to state 1
+    LONG   shift, and go to state 2
+    FLOAT  shift, and go to state 3
+    CHAR   shift, and go to state 4
+    VOID   shift, and go to state 5
+    LIST   shift, and go to state 6
+
+    $default  reduce using rule 13 (ENTRE)
+
+    ENTRES  go to state 136
+    ENTRE   go to state 103
+    type    go to state 104
+
+
+State 117
+
+    8 var_decl_id: ID LBRACK . ENTIER RBRACK
+
+    ENTIER  shift, and go to state 137
+
+
+State 118
+
+    5 Declaration_mul: Declaration_mul COMMA . var_decl_id
+
+    ID  shift, and go to state 138
+
+    var_decl_id  go to state 139
+
+
+State 119
+
+    4 Declaration_var: type Declaration_mul SEMI .
+
+    $default  reduce using rule 4 (Declaration_var)
+
+
+State 120
+
+   43 bloc: var AFFECTATION ID . LPAREN ENTRES RPAREN bloc
+   56 var: ID .
+
+    LPAREN  shift, and go to state 140
+
+    $default  reduce using rule 56 (var)
+
+
+State 121
+
+   52 expression: var AFFECTATION expression .
+
+    $default  reduce using rule 52 (expression)
+
+
+State 122
+
+   57 Expr_log: Expr_log OR Adress1 . Expr_log_or
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    var                     go to state 74
+    Expr_log_or             go to state 141
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 123
+
+   59 Expr_log_or: Expr_log_or AND Adress1 . Expr_log_not
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    var                     go to state 74
+    Expr_log_not            go to state 142
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 124
+
+   63 Expression_comp: expression_add SUP_INF_EGALE_DIFF expression_add .
+   71 expression_add: expression_add . PLUS_MOINS Expression_fois_divise
+
+    PLUS   shift, and go to state 94
+    MOINS  shift, and go to state 95
+
+    $default  reduce using rule 63 (Expression_comp)
+
+    PLUS_MOINS  go to state 97
+
+
+State 125
+
+   71 expression_add: expression_add PLUS_MOINS Expression_fois_divise .
+   75 Expression_fois_divise: Expression_fois_divise . FOIS_DIVISE_MODE Expression_Neg
+
+    MODE    shift, and go to state 98
+    FOIS    shift, and go to state 99
+    DIVISE  shift, and go to state 100
+
+    $default  reduce using rule 71 (expression_add)
+
+    FOIS_DIVISE_MODE  go to state 101
+
+
+State 126
+
+   75 Expression_fois_divise: Expression_fois_divise FOIS_DIVISE_MODE Expression_Neg .
+
+    $default  reduce using rule 75 (Expression_fois_divise)
+
+
+State 127
+
+   10 ENTRES: ENTRES COMMA . ENTRE
+
+    INT    shift, and go to state 1
+    LONG   shift, and go to state 2
+    FLOAT  shift, and go to state 3
+    CHAR   shift, and go to state 4
+    VOID   shift, and go to state 5
+    LIST   shift, and go to state 6
+
+    $default  reduce using rule 13 (ENTRE)
+
+    ENTRE  go to state 143
+    type   go to state 104
+
+
+State 128
+
+   42 Appel_function: ID LPAREN ENTRES RPAREN .
+
+    $default  reduce using rule 42 (Appel_function)
+
+
+State 129
+
+   12 ENTRE: type ID .
+
+    $default  reduce using rule 12 (ENTRE)
+
+
+State 130
+
+   46 if_instruction: IF LPAREN expression RPAREN . Adress1 bloc
+   47               | IF LPAREN expression RPAREN . Adress1 bloc ELSE Adress1 Adress2 bloc
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 144
+
+
+State 131
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION . constant SEMI Adress1 Expr_log SEMI Adress1 expression RPAREN Adress1 bloc
+
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    constant  go to state 145
+
+
+State 132
+
+   48 while_instruction: WHILE LPAREN Adress1 expression . RPAREN Adress1 bloc
+
+    RPAREN  shift, and go to state 146
+
+
+State 133
+
+   39 instruction: READ LPAREN ID RPAREN . SEMI
+
+    SEMI  shift, and go to state 147
+
+
+State 134
+
+   40 instruction: WRITE LPAREN ID RPAREN . SEMI
+
+    SEMI  shift, and go to state 148
+
+
+State 135
+
+   26 WHYNOT: WHYNOT bloc Adress1 .
+
+    $default  reduce using rule 26 (WHYNOT)
+
+
+State 136
+
+    9 Function: type ID LPAREN ENTRES . RPAREN bloc
+   10 ENTRES: ENTRES . COMMA ENTRE
+
+    COMMA   shift, and go to state 127
+    RPAREN  shift, and go to state 149
+
+
+State 137
+
+    8 var_decl_id: ID LBRACK ENTIER . RBRACK
+
+    RBRACK  shift, and go to state 150
+
+
+State 138
+
+    7 var_decl_id: ID .
+    8            | ID . LBRACK ENTIER RBRACK
+
+    LBRACK  shift, and go to state 117
+
+    $default  reduce using rule 7 (var_decl_id)
+
+
+State 139
+
+    5 Declaration_mul: Declaration_mul COMMA var_decl_id .
+
+    $default  reduce using rule 5 (Declaration_mul)
+
+
+State 140
+
+   43 bloc: var AFFECTATION ID LPAREN . ENTRES RPAREN bloc
+
+    INT    shift, and go to state 1
+    LONG   shift, and go to state 2
+    FLOAT  shift, and go to state 3
+    CHAR   shift, and go to state 4
+    VOID   shift, and go to state 5
+    LIST   shift, and go to state 6
+
+    $default  reduce using rule 13 (ENTRE)
+
+    ENTRES  go to state 151
+    ENTRE   go to state 103
+    type    go to state 104
+
+
+State 141
+
+   57 Expr_log: Expr_log OR Adress1 Expr_log_or .
+   59 Expr_log_or: Expr_log_or . AND Adress1 Expr_log_not
+
+    AND  shift, and go to state 87
+
+    $default  reduce using rule 57 (Expr_log)
+
+
+State 142
+
+   59 Expr_log_or: Expr_log_or AND Adress1 Expr_log_not .
+
+    $default  reduce using rule 59 (Expr_log_or)
+
+
+State 143
+
+   10 ENTRES: ENTRES COMMA ENTRE .
+
+    $default  reduce using rule 10 (ENTRES)
+
+
+State 144
+
+   46 if_instruction: IF LPAREN expression RPAREN Adress1 . bloc
+   47               | IF LPAREN expression RPAREN Adress1 . bloc ELSE Adress1 Adress2 bloc
+
+    ID           shift, and go to state 20
+    ENTIER       shift, and go to state 21
+    RETURN       shift, and go to state 22
+    INT          shift, and go to state 1
+    LONG         shift, and go to state 2
+    FLOAT        shift, and go to state 3
+    CHAR         shift, and go to state 4
+    IF           shift, and go to state 23
+    FOR          shift, and go to state 24
+    WHILE        shift, and go to state 25
+    READ         shift, and go to state 26
+    WRITE        shift, and go to state 27
+    VOID         shift, and go to state 5
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    SEMI         shift, and go to state 32
+    LPAREN       shift, and go to state 33
+    LBRACE       shift, and go to state 34
+    COMMENTAIRE  shift, and go to state 35
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+    LIST         shift, and go to state 6
+
+    ID           [reduce using rule 41 (instruction)]
+    ENTIER       [reduce using rule 41 (instruction)]
+    RETURN       [reduce using rule 41 (instruction)]
+    INT          [reduce using rule 41 (instruction)]
+    LONG         [reduce using rule 41 (instruction)]
+    FLOAT        [reduce using rule 41 (instruction)]
+    CHAR         [reduce using rule 41 (instruction)]
+    IF           [reduce using rule 41 (instruction)]
+    FOR          [reduce using rule 41 (instruction)]
+    WHILE        [reduce using rule 41 (instruction)]
+    READ         [reduce using rule 41 (instruction)]
+    WRITE        [reduce using rule 41 (instruction)]
+    VOID         [reduce using rule 41 (instruction)]
+    FALSE        [reduce using rule 41 (instruction)]
+    TRUE         [reduce using rule 41 (instruction)]
+    NOT          [reduce using rule 41 (instruction)]
+    MOINS        [reduce using rule 41 (instruction)]
+    SEMI         [reduce using rule 41 (instruction)]
+    LPAREN       [reduce using rule 41 (instruction)]
+    LBRACE       [reduce using rule 41 (instruction)]
+    COMMENTAIRE  [reduce using rule 41 (instruction)]
+    NFLOAT       [reduce using rule 41 (instruction)]
+    NLONG        [reduce using rule 41 (instruction)]
+    key_chaindc  [reduce using rule 41 (instruction)]
+    CHIFFRE      [reduce using rule 41 (instruction)]
+    LIST         [reduce using rule 41 (instruction)]
+    $default     reduce using rule 41 (instruction)
+
+    Declaration             go to state 41
+    Declaration_var         go to state 42
+    Function                go to state 43
+    type                    go to state 44
+    instructions            go to state 45
+    bloc                    go to state 152
+    instruction             go to state 47
+    Appel_function          go to state 48
+    expression_decl         go to state 49
+    if_instruction          go to state 50
+    while_instruction       go to state 51
+    Return_statment         go to state 52
+    expression              go to state 53
+    var                     go to state 54
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 145
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant . SEMI Adress1 Expr_log SEMI Adress1 expression RPAREN Adress1 bloc
+
+    SEMI  shift, and go to state 153
+
+
+State 146
+
+   48 while_instruction: WHILE LPAREN Adress1 expression RPAREN . Adress1 bloc
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 154
+
+
+State 147
+
+   39 instruction: READ LPAREN ID RPAREN SEMI .
+
+    $default  reduce using rule 39 (instruction)
+
+
+State 148
+
+   40 instruction: WRITE LPAREN ID RPAREN SEMI .
+
+    $default  reduce using rule 40 (instruction)
+
+
+State 149
+
+    9 Function: type ID LPAREN ENTRES RPAREN . bloc
+
+    ID           shift, and go to state 20
+    ENTIER       shift, and go to state 21
+    RETURN       shift, and go to state 22
+    INT          shift, and go to state 1
+    LONG         shift, and go to state 2
+    FLOAT        shift, and go to state 3
+    CHAR         shift, and go to state 4
+    IF           shift, and go to state 23
+    FOR          shift, and go to state 24
+    WHILE        shift, and go to state 25
+    READ         shift, and go to state 26
+    WRITE        shift, and go to state 27
+    VOID         shift, and go to state 5
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    SEMI         shift, and go to state 32
+    LPAREN       shift, and go to state 33
+    LBRACE       shift, and go to state 34
+    COMMENTAIRE  shift, and go to state 35
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+    LIST         shift, and go to state 6
+
+    ID           [reduce using rule 41 (instruction)]
+    ENTIER       [reduce using rule 41 (instruction)]
+    RETURN       [reduce using rule 41 (instruction)]
+    INT          [reduce using rule 41 (instruction)]
+    LONG         [reduce using rule 41 (instruction)]
+    FLOAT        [reduce using rule 41 (instruction)]
+    CHAR         [reduce using rule 41 (instruction)]
+    IF           [reduce using rule 41 (instruction)]
+    FOR          [reduce using rule 41 (instruction)]
+    WHILE        [reduce using rule 41 (instruction)]
+    READ         [reduce using rule 41 (instruction)]
+    WRITE        [reduce using rule 41 (instruction)]
+    VOID         [reduce using rule 41 (instruction)]
+    FALSE        [reduce using rule 41 (instruction)]
+    TRUE         [reduce using rule 41 (instruction)]
+    NOT          [reduce using rule 41 (instruction)]
+    MOINS        [reduce using rule 41 (instruction)]
+    SEMI         [reduce using rule 41 (instruction)]
+    LPAREN       [reduce using rule 41 (instruction)]
+    LBRACE       [reduce using rule 41 (instruction)]
+    COMMENTAIRE  [reduce using rule 41 (instruction)]
+    NFLOAT       [reduce using rule 41 (instruction)]
+    NLONG        [reduce using rule 41 (instruction)]
+    key_chaindc  [reduce using rule 41 (instruction)]
+    CHIFFRE      [reduce using rule 41 (instruction)]
+    LIST         [reduce using rule 41 (instruction)]
+    $default     reduce using rule 41 (instruction)
+
+    Declaration             go to state 41
+    Declaration_var         go to state 42
+    Function                go to state 43
+    type                    go to state 44
+    instructions            go to state 45
+    bloc                    go to state 155
+    instruction             go to state 47
+    Appel_function          go to state 48
+    expression_decl         go to state 49
+    if_instruction          go to state 50
+    while_instruction       go to state 51
+    Return_statment         go to state 52
+    expression              go to state 53
+    var                     go to state 54
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 150
+
+    8 var_decl_id: ID LBRACK ENTIER RBRACK .
+
+    $default  reduce using rule 8 (var_decl_id)
+
+
+State 151
+
+   10 ENTRES: ENTRES . COMMA ENTRE
+   43 bloc: var AFFECTATION ID LPAREN ENTRES . RPAREN bloc
+
+    COMMA   shift, and go to state 127
+    RPAREN  shift, and go to state 156
+
+
+State 152
+
+   46 if_instruction: IF LPAREN expression RPAREN Adress1 bloc .
+   47               | IF LPAREN expression RPAREN Adress1 bloc . ELSE Adress1 Adress2 bloc
+
+    ELSE  shift, and go to state 157
+
+    $default  reduce using rule 46 (if_instruction)
+
+
+State 153
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant SEMI . Adress1 Expr_log SEMI Adress1 expression RPAREN Adress1 bloc
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 158
+
+
+State 154
+
+   48 while_instruction: WHILE LPAREN Adress1 expression RPAREN Adress1 . bloc
+
+    ID           shift, and go to state 20
+    ENTIER       shift, and go to state 21
+    RETURN       shift, and go to state 22
+    INT          shift, and go to state 1
+    LONG         shift, and go to state 2
+    FLOAT        shift, and go to state 3
+    CHAR         shift, and go to state 4
+    IF           shift, and go to state 23
+    FOR          shift, and go to state 24
+    WHILE        shift, and go to state 25
+    READ         shift, and go to state 26
+    WRITE        shift, and go to state 27
+    VOID         shift, and go to state 5
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    SEMI         shift, and go to state 32
+    LPAREN       shift, and go to state 33
+    LBRACE       shift, and go to state 34
+    COMMENTAIRE  shift, and go to state 35
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+    LIST         shift, and go to state 6
+
+    ID           [reduce using rule 41 (instruction)]
+    ENTIER       [reduce using rule 41 (instruction)]
+    RETURN       [reduce using rule 41 (instruction)]
+    INT          [reduce using rule 41 (instruction)]
+    LONG         [reduce using rule 41 (instruction)]
+    FLOAT        [reduce using rule 41 (instruction)]
+    CHAR         [reduce using rule 41 (instruction)]
+    IF           [reduce using rule 41 (instruction)]
+    FOR          [reduce using rule 41 (instruction)]
+    WHILE        [reduce using rule 41 (instruction)]
+    READ         [reduce using rule 41 (instruction)]
+    WRITE        [reduce using rule 41 (instruction)]
+    VOID         [reduce using rule 41 (instruction)]
+    FALSE        [reduce using rule 41 (instruction)]
+    TRUE         [reduce using rule 41 (instruction)]
+    NOT          [reduce using rule 41 (instruction)]
+    MOINS        [reduce using rule 41 (instruction)]
+    SEMI         [reduce using rule 41 (instruction)]
+    LPAREN       [reduce using rule 41 (instruction)]
+    LBRACE       [reduce using rule 41 (instruction)]
+    COMMENTAIRE  [reduce using rule 41 (instruction)]
+    NFLOAT       [reduce using rule 41 (instruction)]
+    NLONG        [reduce using rule 41 (instruction)]
+    key_chaindc  [reduce using rule 41 (instruction)]
+    CHIFFRE      [reduce using rule 41 (instruction)]
+    LIST         [reduce using rule 41 (instruction)]
+    $default     reduce using rule 41 (instruction)
+
+    Declaration             go to state 41
+    Declaration_var         go to state 42
+    Function                go to state 43
+    type                    go to state 44
+    instructions            go to state 45
+    bloc                    go to state 159
+    instruction             go to state 47
+    Appel_function          go to state 48
+    expression_decl         go to state 49
+    if_instruction          go to state 50
+    while_instruction       go to state 51
+    Return_statment         go to state 52
+    expression              go to state 53
+    var                     go to state 54
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 155
+
+    9 Function: type ID LPAREN ENTRES RPAREN bloc .
+
+    $default  reduce using rule 9 (Function)
+
+
+State 156
+
+   43 bloc: var AFFECTATION ID LPAREN ENTRES RPAREN . bloc
+
+    ID           shift, and go to state 20
+    ENTIER       shift, and go to state 21
+    RETURN       shift, and go to state 22
+    INT          shift, and go to state 1
+    LONG         shift, and go to state 2
+    FLOAT        shift, and go to state 3
+    CHAR         shift, and go to state 4
+    IF           shift, and go to state 23
+    FOR          shift, and go to state 24
+    WHILE        shift, and go to state 25
+    READ         shift, and go to state 26
+    WRITE        shift, and go to state 27
+    VOID         shift, and go to state 5
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    SEMI         shift, and go to state 32
+    LPAREN       shift, and go to state 33
+    LBRACE       shift, and go to state 34
+    COMMENTAIRE  shift, and go to state 35
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+    LIST         shift, and go to state 6
+
+    ID           [reduce using rule 41 (instruction)]
+    ENTIER       [reduce using rule 41 (instruction)]
+    RETURN       [reduce using rule 41 (instruction)]
+    INT          [reduce using rule 41 (instruction)]
+    LONG         [reduce using rule 41 (instruction)]
+    FLOAT        [reduce using rule 41 (instruction)]
+    CHAR         [reduce using rule 41 (instruction)]
+    IF           [reduce using rule 41 (instruction)]
+    FOR          [reduce using rule 41 (instruction)]
+    WHILE        [reduce using rule 41 (instruction)]
+    READ         [reduce using rule 41 (instruction)]
+    WRITE        [reduce using rule 41 (instruction)]
+    VOID         [reduce using rule 41 (instruction)]
+    FALSE        [reduce using rule 41 (instruction)]
+    TRUE         [reduce using rule 41 (instruction)]
+    NOT          [reduce using rule 41 (instruction)]
+    MOINS        [reduce using rule 41 (instruction)]
+    SEMI         [reduce using rule 41 (instruction)]
+    LPAREN       [reduce using rule 41 (instruction)]
+    LBRACE       [reduce using rule 41 (instruction)]
+    COMMENTAIRE  [reduce using rule 41 (instruction)]
+    NFLOAT       [reduce using rule 41 (instruction)]
+    NLONG        [reduce using rule 41 (instruction)]
+    key_chaindc  [reduce using rule 41 (instruction)]
+    CHIFFRE      [reduce using rule 41 (instruction)]
+    LIST         [reduce using rule 41 (instruction)]
+    $default     reduce using rule 41 (instruction)
+
+    Declaration             go to state 41
+    Declaration_var         go to state 42
+    Function                go to state 43
+    type                    go to state 44
+    instructions            go to state 45
+    bloc                    go to state 160
+    instruction             go to state 47
+    Appel_function          go to state 48
+    expression_decl         go to state 49
+    if_instruction          go to state 50
+    while_instruction       go to state 51
+    Return_statment         go to state 52
+    expression              go to state 53
+    var                     go to state 54
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 157
+
+   47 if_instruction: IF LPAREN expression RPAREN Adress1 bloc ELSE . Adress1 Adress2 bloc
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 161
+
+
+State 158
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant SEMI Adress1 . Expr_log SEMI Adress1 expression RPAREN Adress1 bloc
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    var                     go to state 74
+    Expr_log                go to state 162
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 159
+
+   48 while_instruction: WHILE LPAREN Adress1 expression RPAREN Adress1 bloc .
+
+    $default  reduce using rule 48 (while_instruction)
+
+
+State 160
+
+   43 bloc: var AFFECTATION ID LPAREN ENTRES RPAREN bloc .
+
+    $default  reduce using rule 43 (bloc)
+
+
+State 161
+
+   47 if_instruction: IF LPAREN expression RPAREN Adress1 bloc ELSE Adress1 . Adress2 bloc
+
+    $default  reduce using rule 93 (Adress2)
+
+    Adress2  go to state 163
+
+
+State 162
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant SEMI Adress1 Expr_log . SEMI Adress1 expression RPAREN Adress1 bloc
+   57 Expr_log: Expr_log . OR Adress1 Expr_log_or
+
+    OR    shift, and go to state 86
+    SEMI  shift, and go to state 164
+
+
+State 163
+
+   47 if_instruction: IF LPAREN expression RPAREN Adress1 bloc ELSE Adress1 Adress2 . bloc
+
+    ID           shift, and go to state 20
+    ENTIER       shift, and go to state 21
+    RETURN       shift, and go to state 22
+    INT          shift, and go to state 1
+    LONG         shift, and go to state 2
+    FLOAT        shift, and go to state 3
+    CHAR         shift, and go to state 4
+    IF           shift, and go to state 23
+    FOR          shift, and go to state 24
+    WHILE        shift, and go to state 25
+    READ         shift, and go to state 26
+    WRITE        shift, and go to state 27
+    VOID         shift, and go to state 5
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    SEMI         shift, and go to state 32
+    LPAREN       shift, and go to state 33
+    LBRACE       shift, and go to state 34
+    COMMENTAIRE  shift, and go to state 35
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+    LIST         shift, and go to state 6
+
+    ID           [reduce using rule 41 (instruction)]
+    ENTIER       [reduce using rule 41 (instruction)]
+    RETURN       [reduce using rule 41 (instruction)]
+    INT          [reduce using rule 41 (instruction)]
+    LONG         [reduce using rule 41 (instruction)]
+    FLOAT        [reduce using rule 41 (instruction)]
+    CHAR         [reduce using rule 41 (instruction)]
+    IF           [reduce using rule 41 (instruction)]
+    FOR          [reduce using rule 41 (instruction)]
+    WHILE        [reduce using rule 41 (instruction)]
+    READ         [reduce using rule 41 (instruction)]
+    WRITE        [reduce using rule 41 (instruction)]
+    VOID         [reduce using rule 41 (instruction)]
+    FALSE        [reduce using rule 41 (instruction)]
+    TRUE         [reduce using rule 41 (instruction)]
+    NOT          [reduce using rule 41 (instruction)]
+    MOINS        [reduce using rule 41 (instruction)]
+    SEMI         [reduce using rule 41 (instruction)]
+    LPAREN       [reduce using rule 41 (instruction)]
+    LBRACE       [reduce using rule 41 (instruction)]
+    COMMENTAIRE  [reduce using rule 41 (instruction)]
+    NFLOAT       [reduce using rule 41 (instruction)]
+    NLONG        [reduce using rule 41 (instruction)]
+    key_chaindc  [reduce using rule 41 (instruction)]
+    CHIFFRE      [reduce using rule 41 (instruction)]
+    LIST         [reduce using rule 41 (instruction)]
+    $default     reduce using rule 41 (instruction)
+
+    Declaration             go to state 41
+    Declaration_var         go to state 42
+    Function                go to state 43
+    type                    go to state 44
+    instructions            go to state 45
+    bloc                    go to state 165
+    instruction             go to state 47
+    Appel_function          go to state 48
+    expression_decl         go to state 49
+    if_instruction          go to state 50
+    while_instruction       go to state 51
+    Return_statment         go to state 52
+    expression              go to state 53
+    var                     go to state 54
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 164
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant SEMI Adress1 Expr_log SEMI . Adress1 expression RPAREN Adress1 bloc
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 166
+
+
+State 165
+
+   47 if_instruction: IF LPAREN expression RPAREN Adress1 bloc ELSE Adress1 Adress2 bloc .
+
+    $default  reduce using rule 47 (if_instruction)
+
+
+State 166
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant SEMI Adress1 Expr_log SEMI Adress1 . expression RPAREN Adress1 bloc
+
+    ID           shift, and go to state 65
+    ENTIER       shift, and go to state 21
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    LPAREN       shift, and go to state 33
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+
+    expression              go to state 167
+    var                     go to state 68
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 167
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant SEMI Adress1 Expr_log SEMI Adress1 expression . RPAREN Adress1 bloc
+
+    RPAREN  shift, and go to state 168
+
+
+State 168
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant SEMI Adress1 Expr_log SEMI Adress1 expression RPAREN . Adress1 bloc
+
+    $default  reduce using rule 92 (Adress1)
+
+    Adress1  go to state 169
+
+
+State 169
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant SEMI Adress1 Expr_log SEMI Adress1 expression RPAREN Adress1 . bloc
+
+    ID           shift, and go to state 20
+    ENTIER       shift, and go to state 21
+    RETURN       shift, and go to state 22
+    INT          shift, and go to state 1
+    LONG         shift, and go to state 2
+    FLOAT        shift, and go to state 3
+    CHAR         shift, and go to state 4
+    IF           shift, and go to state 23
+    FOR          shift, and go to state 24
+    WHILE        shift, and go to state 25
+    READ         shift, and go to state 26
+    WRITE        shift, and go to state 27
+    VOID         shift, and go to state 5
+    FALSE        shift, and go to state 28
+    TRUE         shift, and go to state 29
+    NOT          shift, and go to state 30
+    MOINS        shift, and go to state 31
+    SEMI         shift, and go to state 32
+    LPAREN       shift, and go to state 33
+    LBRACE       shift, and go to state 34
+    COMMENTAIRE  shift, and go to state 35
+    NFLOAT       shift, and go to state 36
+    NLONG        shift, and go to state 37
+    key_chaindc  shift, and go to state 38
+    CHIFFRE      shift, and go to state 39
+    LIST         shift, and go to state 6
+
+    ID           [reduce using rule 41 (instruction)]
+    ENTIER       [reduce using rule 41 (instruction)]
+    RETURN       [reduce using rule 41 (instruction)]
+    INT          [reduce using rule 41 (instruction)]
+    LONG         [reduce using rule 41 (instruction)]
+    FLOAT        [reduce using rule 41 (instruction)]
+    CHAR         [reduce using rule 41 (instruction)]
+    IF           [reduce using rule 41 (instruction)]
+    FOR          [reduce using rule 41 (instruction)]
+    WHILE        [reduce using rule 41 (instruction)]
+    READ         [reduce using rule 41 (instruction)]
+    WRITE        [reduce using rule 41 (instruction)]
+    VOID         [reduce using rule 41 (instruction)]
+    FALSE        [reduce using rule 41 (instruction)]
+    TRUE         [reduce using rule 41 (instruction)]
+    NOT          [reduce using rule 41 (instruction)]
+    MOINS        [reduce using rule 41 (instruction)]
+    SEMI         [reduce using rule 41 (instruction)]
+    LPAREN       [reduce using rule 41 (instruction)]
+    LBRACE       [reduce using rule 41 (instruction)]
+    COMMENTAIRE  [reduce using rule 41 (instruction)]
+    NFLOAT       [reduce using rule 41 (instruction)]
+    NLONG        [reduce using rule 41 (instruction)]
+    key_chaindc  [reduce using rule 41 (instruction)]
+    CHIFFRE      [reduce using rule 41 (instruction)]
+    LIST         [reduce using rule 41 (instruction)]
+    $default     reduce using rule 41 (instruction)
+
+    Declaration             go to state 41
+    Declaration_var         go to state 42
+    Function                go to state 43
+    type                    go to state 44
+    instructions            go to state 45
+    bloc                    go to state 170
+    instruction             go to state 47
+    Appel_function          go to state 48
+    expression_decl         go to state 49
+    if_instruction          go to state 50
+    while_instruction       go to state 51
+    Return_statment         go to state 52
+    expression              go to state 53
+    var                     go to state 54
+    Expr_log                go to state 55
+    Expr_log_or             go to state 56
+    Expr_log_not            go to state 57
+    Expression_comp         go to state 58
+    expression_add          go to state 59
+    Expression_fois_divise  go to state 60
+    Expression_Neg          go to state 61
+    Expression_par          go to state 62
+    constant                go to state 63
+
+
+State 170
+
+   49 while_instruction: FOR LPAREN ID AFFECTATION constant SEMI Adress1 Expr_log SEMI Adress1 expression RPAREN Adress1 bloc .
+
+    $default  reduce using rule 49 (while_instruction)

@@ -1,0 +1,9 @@
+flex flex.l
+
+bison bison.y -v -d
+
+//désactiver la protection de gcc
+gcc -fno-stack-protector -g lex.yy.c -o projet -lfl 
+
+./projet
+
